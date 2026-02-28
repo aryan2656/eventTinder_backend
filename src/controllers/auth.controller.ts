@@ -81,6 +81,62 @@ class AuthController {
         }
         }
     }
+
+     // signIn method is called when user wants to access their account
+    signIn = async (userData: SignupRequest) => {
+        const {name, email, password, role} = userData
+
+        // validate data
+        if(this.validateData(userData)){
+            try{
+
+                // check user's existence in database
+                const user = await UserModel.findOne({email}).select("+password");
+
+                console.log("User: ", user)
+
+                if(user){
+                    // compare password
+                    const isMatch = await bcrypt.compare(password, user.password);
+
+                    console.log("ismatch: ", isMatch)
+
+                    if (!isMatch) {
+                        return { status: 401, success: false, message: "Invalid credentials" };
+                    }
+
+                    return {
+                        status: 200,
+                        success: true,
+                        message: "Login successful",
+                        data: {
+                            id: user._id,
+                            name: user.name,
+                            email: user.email,
+                            role: user.role
+                        }
+                    }
+                }else{
+                    return {
+                        status: 400,
+                        success: false,
+                        message: "User not found"
+                    }
+                }
+
+            }catch(error){
+                return { status: 500, success: false, message: "Internal server error" };
+            }
+
+        }else{
+            return {
+                status: 400,
+                success: false,
+                message: "Validation failed"
+            }
+        }
+
+    }
 }  
 
 const authController = new AuthController();

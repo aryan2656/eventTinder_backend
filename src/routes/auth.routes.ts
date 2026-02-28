@@ -13,4 +13,12 @@ router.post("/signup", async (req: Request, res: Response) => {
     }
 });
 
+router.post("/signin", async (req: Request, res: Response) => {
+    try{
+        const result = await authController.signIn(req.body)
+        res.status(result.status).json(result)
+    }catch(err){
+        res.status(500).json({message: "Server error", error: err})
+    }
+})
 export default router;
