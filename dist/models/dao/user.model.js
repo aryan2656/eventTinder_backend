@@ -1,21 +1,6 @@
-import mongoose from "mongoose"
-import {Schema, Document }  from "mongoose"
-
-export type Role = 'student' | 'recruiter'
-
-export interface IUser extends Document {
-    name: string;
-    email: string;
-    password: string;
-    role: Role;
-    interests?: string[];
-    goals?: string[];
-    profileCompleted?: boolean;
-    createdAt?: Date;
-    updatedAt?: Date;
-}
-
-const userSchema = new Schema<IUser>({
+import mongoose from "mongoose";
+import { Schema } from "mongoose";
+const userSchema = new Schema({
     name: {
         type: String,
         required: true,
@@ -51,10 +36,7 @@ const userSchema = new Schema<IUser>({
         default: false,
     },
 }, {
-        timestamps: true
-    })
-
-const UserModel = mongoose.model<IUser>("User", userSchema)   
-
-export default UserModel
-
+    timestamps: true
+});
+export default mongoose.model("User", userSchema);
+//# sourceMappingURL=user.model.js.map
