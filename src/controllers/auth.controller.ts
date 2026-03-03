@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import UserModel  from "../models/dao/user.model.js"
 import { SignupRequest } from "../models/request/auth.requests.js";
 import bcrypt from "bcrypt"
+import jwt from "jsonwebtoken"
 
 class AuthController {
 
@@ -99,6 +100,8 @@ class AuthController {
                     // compare password
                     const isMatch = await bcrypt.compare(password, user.password);
 
+                    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET as string, {expiresIn: '2h'})
+
                     console.log("ismatch: ", isMatch)
 
                     if (!isMatch) {
@@ -114,7 +117,8 @@ class AuthController {
                             name: user.name,
                             email: user.email,
                             role: user.role
-                        }
+                        },
+                        token: token
                     }
                 }else{
                     return {
