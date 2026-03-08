@@ -15,12 +15,12 @@ interface JwtPayloadWithUserId {
 }
 
 const verifyToken = (req: Request, res: Response, next: NextFunction) => {
-    const authHeader = req.header('Authorization')
+    const token = req.cookies.token
 
-    if(!authHeader) return res.status(401).json({error: 'Access denied'});
+    if(!token) return res.status(401).json({error: 'Access denied'});
 
     // Extract token after "Bearer"
-    const token = authHeader.split(" ")[1];
+    // const token = authHeader.split(" ")[1];
 
     if(!token) {
         return res.status(401).json({error: 'No token provided.'});

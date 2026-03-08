@@ -100,13 +100,13 @@ class AuthController {
                     // compare password
                     const isMatch = await bcrypt.compare(password, user.password);
 
-                    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET as string, {expiresIn: '2h'})
-
-                    console.log("ismatch: ", isMatch)
-
                     if (!isMatch) {
                         return { status: 401, success: false, message: "Invalid credentials" };
                     }
+
+                    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET as string, {expiresIn: '2h'})
+
+                    console.log("ismatch: ", isMatch)
 
                     return {
                         status: 200,

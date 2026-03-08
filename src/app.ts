@@ -10,7 +10,7 @@ app.use(cookieParser())
 app.use(cors());
 app.use(express.json());
 
-app.use("/api", profileRoutes)
+// app.use("/api", profileRoutes)
 
 app.get("/",(req, res) => {
     res.cookie("name","aryan")
