@@ -7,13 +7,20 @@ class ProfileController {
     }
 
     save = async ( data: ProfileRequest, userId : string ) => {
-        // client sends data like interests and goals with token of identification
-
-        // I need to save data in profile which already exists the data coming is interest and goals how can i do that 
         try{
+        const { interests, goals } = data
         // send data to service
         const user = await profileService.save(data, userId);
         if(!user) throw new Error("User not found")
+        
+        const interestString = interests.join(",");
+        const goalsString = goals.join(",");
+
+        const finalString = `I am interested in ${interestString}. My goals are ${goalsString}`
+
+        const response = await profileService.saveEmbeddings(finalString, userId)
+        if(!response) throw new Error("Vector embeddings not saved")
+            
         return {
             status: 200,
             success: true,
@@ -26,6 +33,7 @@ class ProfileController {
         }
         // send response back to client
         }catch(error){
+            console.log("Error is: ", error)
             return {
                 status: 500,
                 success: false,

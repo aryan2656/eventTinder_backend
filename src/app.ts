@@ -2,7 +2,9 @@ import express from "express"
 import cors from "cors"
 import cookieParser from "cookie-parser";
 import routes from "./routes/index.js"
-import profileRoutes from "./routes/protectedRoute.js";
+import dotenv from "dotenv"
+
+dotenv.config({ path: "./.env" })
 
 const app = express();
 

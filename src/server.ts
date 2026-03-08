@@ -3,7 +3,7 @@ import app from "./app.js"
 import  connectDatabase  from "./config/database.js"
 
 // loading environment variables
-dotenv.config();
+dotenv.config({ path: "./.env" })
 
 // connecting to database
 connectDatabase()

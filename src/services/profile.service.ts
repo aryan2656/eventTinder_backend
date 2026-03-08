@@ -6,6 +6,11 @@ class ProfileService {
         const response = await profileRepository.save(data, userId)
         return response;
     }
+
+    saveEmbeddings = async (finalString: string, userId: string) => {
+        const response = await profileRepository.saveEmbeddings(finalString, userId)
+        return response;
+    }
 }
 
 const profileService = new ProfileService();

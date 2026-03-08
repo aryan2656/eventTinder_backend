@@ -13,6 +13,7 @@ export interface IUser extends Document {
     profileCompleted?: boolean;
     createdAt?: Date;
     updatedAt?: Date;
+    vector?: number[];
 }
 
 const userSchema = new Schema<IUser>({
@@ -50,6 +51,11 @@ const userSchema = new Schema<IUser>({
         type: Boolean,
         default: false,
     },
+    vector: {
+        type: [Number],
+        default: [],
+        required: false
+    }
 }, {
         timestamps: true
     })
